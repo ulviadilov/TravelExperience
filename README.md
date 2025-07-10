@@ -279,10 +279,28 @@ curl -X GET "https://api.travelexperience.com/api/destinations"
 ## Development Notes
 
 ### CQRS Implementation
-- **Commands** - Handle write operation (Create)
-- **Queries** - Handle read operations (Get, List)
-- **Handlers** - Process commands and queries using MediatR
-- **Validators** - Validate input using FluentValidation
+CQRS Implementation and Clean Architecture Design Decisions
+Why Clean Architecture?
+Separation of Concerns: Clear boundaries between Domain, Application, Infrastructure, and Presentation layers ensure maintainable code where business logic is independent of data access and UI concerns.
+Dependency Inversion: Inner layers don't depend on outer layers, making the system testable and flexible. Domain entities are independent of database implementation.
+Testability: Each layer can be unit tested independently without external dependencies.
+Why CQRS Pattern?
+Read/Write Separation: Commands handle state changes with focus on business rules and validation, while Queries handle data retrieval optimized for performance and specific read models.
+Single Responsibility: Each command/query has one clear purpose:
+
+CreateTripCommand - Trip creation only
+GetTripByIdQuery - Trip retrieval by ID only
+
+Scalability: Read and write operations can be scaled independently and use different optimization strategies.
+Repository Pattern Implementation
+Separate Read and Write Repositories
+ReadRepository<T>: Optimized for queries with AsNoTracking() for better performance, supports complex LINQ expressions, and provides flexible querying capabilities.
+WriteRepository<T>: Optimized for write operations with full EF Core tracking, handles entity state management, and ensures data consistency through automatic SaveChanges().
+Benefits
+
+Performance: Read repositories disable change tracking; write repositories maintain full tracking
+Interface Segregation: Read interfaces only expose query methods; write interfaces only expose modification methods
+Future Flexibility: Easy to add caching layers, different data sources, or eventual consistency patterns
 
 ### Logging
 The API implements structured logging using `ILogger<T>` for:
