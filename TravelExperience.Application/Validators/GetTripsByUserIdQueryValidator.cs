@@ -10,8 +10,10 @@ namespace TravelExperience.Application.Validators
             RuleFor(x => x.UserId)
                 .NotEmpty()
                 .WithMessage("User ID is required")
-                .MaximumLength(50)
-                .WithMessage("User ID cannot exceed 50 characters");
+                .Length(8, 32)
+                .WithMessage("User ID must be between 8 and 32 characters")
+                .Matches(@"^[a-zA-Z0-9]+$")
+                .WithMessage("User ID can only contain letters and numbers");
         }
     }
 }

@@ -24,11 +24,11 @@ namespace TravelExperience.Infrastructure.Migrations
 
             modelBuilder.Entity("TravelExperience.Domain.Models.Activity", b =>
                 {
-                    b.Property<int>("ActivityId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ActivityId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("Cost")
                         .HasColumnType("decimal(18,2)");
@@ -52,7 +52,7 @@ namespace TravelExperience.Infrastructure.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
 
-                    b.HasKey("ActivityId");
+                    b.HasKey("Id");
 
                     b.HasIndex("DestinationId");
 
@@ -63,11 +63,11 @@ namespace TravelExperience.Infrastructure.Migrations
 
             modelBuilder.Entity("TravelExperience.Domain.Models.Destination", b =>
                 {
-                    b.Property<int>("DestinationId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DestinationId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Country")
                         .IsRequired()
@@ -89,7 +89,7 @@ namespace TravelExperience.Infrastructure.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
 
-                    b.HasKey("DestinationId");
+                    b.HasKey("Id");
 
                     b.HasIndex("Country");
 
@@ -100,11 +100,11 @@ namespace TravelExperience.Infrastructure.Migrations
 
             modelBuilder.Entity("TravelExperience.Domain.Models.Trip", b =>
                 {
-                    b.Property<int>("TripId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TripId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -135,7 +135,7 @@ namespace TravelExperience.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.HasKey("TripId");
+                    b.HasKey("Id");
 
                     b.ToTable("Trips");
                 });

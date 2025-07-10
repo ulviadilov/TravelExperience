@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TravelExperience.Application.Features.Destinations.Queries.GetAllDestinations;
+using TravelExperience.WebAPI.Enums;
+using TravelExperience.WebAPI.Extensions;
 
 namespace TravelExperience.WebAPI.Controllers
 {
@@ -17,6 +19,17 @@ namespace TravelExperience.WebAPI.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Retrieves a list of all available destinations.
+        /// </summary>
+        /// <remarks>
+        /// Sample request: GET /api/destinations
+        /// </remarks>
+        /// <returns>
+        /// Returns a list of destinations (HTTP 200) on success, 
+        /// or an internal server error (HTTP 500) if something goes wrong.
+        /// </returns>
+
         [HttpGet]
         public async Task<ActionResult<GetAllDestinationsResponse>> GetAllDestinations()
         {
@@ -28,8 +41,8 @@ namespace TravelExperience.WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while retrieving destinations");
-                return StatusCode(500, new { error = "An error occurred while retrieving destinations" });
+                _logger.LogError(ex, "Error: {Message}", ErrorMessages.GetDestinationsFailed.GetMessage());
+                return StatusCode((int)ResponseStatusCode.InternalServerError, new { error = ErrorMessages.GetDestinationsFailed.GetMessage() });
             }
         }
     }

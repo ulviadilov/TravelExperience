@@ -14,7 +14,7 @@ public class TravelExperienceDbContext : DbContext
     {
         modelBuilder.Entity<Trip>(entity =>
         {
-            entity.HasKey(e => e.TripId);
+            entity.HasKey(e => e.Id);
             entity.Property(e => e.TotalCost).HasColumnType("decimal(18,2)");
             entity.Property(e => e.Title).HasMaxLength(200);
             entity.Property(e => e.UserId).HasMaxLength(100);
@@ -24,7 +24,7 @@ public class TravelExperienceDbContext : DbContext
 
         modelBuilder.Entity<Activity>(entity =>
         {
-            entity.HasKey(e => e.ActivityId);
+            entity.HasKey(e => e.Id);
             entity.Property(e => e.Cost).HasColumnType("decimal(18,2)");
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
             entity.Property(e => e.UpdatedAt).HasDefaultValueSql("GETUTCDATE()");
@@ -42,7 +42,7 @@ public class TravelExperienceDbContext : DbContext
 
         modelBuilder.Entity<Destination>(entity =>
         {
-            entity.HasKey(e => e.DestinationId);
+            entity.HasKey(e => e.Id);
             entity.Property(e => e.Name).HasMaxLength(100);
             entity.Property(e => e.Country).HasMaxLength(100);
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("GETUTCDATE()");

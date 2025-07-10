@@ -14,6 +14,13 @@ namespace TravelExperience.Application.Features.Trips.Queries.GetTripByUserId
             _tripService = tripService;
         }
 
+        /// <summary>
+        /// Handles the query to retrieve all trips associated with a specific user ID.
+        /// </summary>
+        /// <param name="request">The query containing the user ID.</param>
+        /// <param name="cancellationToken">Token to monitor for cancellation requests.</param>
+        /// <returns>A response containing a list of trip details for the specified user.</returns>
+        /// 
         public async Task<GetTripsByUserIdResponse> Handle(GetTripsByUserIdQuery request, CancellationToken cancellationToken)
         {
             var trips = await _tripService.GetByUserIdAsync(request.UserId);
@@ -22,7 +29,7 @@ namespace TravelExperience.Application.Features.Trips.Queries.GetTripByUserId
             {
                 Trips = trips.Select(trip => new GetTripByIdResponse
                 {
-                    TripId = trip.TripId,
+                    TripId = trip.Id,
                     UserId = trip.UserId,
                     Title = trip.Title,
                     StartDate = trip.StartDate,
@@ -32,7 +39,7 @@ namespace TravelExperience.Application.Features.Trips.Queries.GetTripByUserId
                     UpdatedAt = trip.UpdatedAt,
                     Activities = trip.Activities.Select(a => new ActivityDto
                     {
-                        ActivityId = a.ActivityId,
+                        ActivityId = a.Id,
                         DestinationId = a.DestinationId,
                         Duration = a.Duration,
                         Cost = a.Cost,

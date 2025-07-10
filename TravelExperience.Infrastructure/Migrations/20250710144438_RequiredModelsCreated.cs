@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TravelExperience.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class CreatedNecessaryTables : Migration
+    public partial class RequiredModelsCreated : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,7 +15,7 @@ namespace TravelExperience.Infrastructure.Migrations
                 name: "Destinations",
                 columns: table => new
                 {
-                    DestinationId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Country = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
@@ -24,14 +24,14 @@ namespace TravelExperience.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Destinations", x => x.DestinationId);
+                    table.PrimaryKey("PK_Destinations", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Trips",
                 columns: table => new
                 {
-                    TripId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
@@ -43,14 +43,14 @@ namespace TravelExperience.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Trips", x => x.TripId);
+                    table.PrimaryKey("PK_Trips", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Activities",
                 columns: table => new
                 {
-                    ActivityId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TripId = table.Column<int>(type: "int", nullable: false),
                     DestinationId = table.Column<int>(type: "int", nullable: false),
@@ -61,18 +61,18 @@ namespace TravelExperience.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Activities", x => x.ActivityId);
+                    table.PrimaryKey("PK_Activities", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Activities_Destinations_DestinationId",
                         column: x => x.DestinationId,
                         principalTable: "Destinations",
-                        principalColumn: "DestinationId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Activities_Trips_TripId",
                         column: x => x.TripId,
                         principalTable: "Trips",
-                        principalColumn: "TripId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 

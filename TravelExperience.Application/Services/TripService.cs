@@ -23,7 +23,7 @@ namespace TravelExperience.Application.Services
 
         public async Task<Trip?> GetByIdAsync(int tripId)
         {
-            return await _tripReadRepository.GetWhere(t => t.TripId == tripId, tracking: false)
+            return await _tripReadRepository.GetWhere(t => t.Id == tripId, tracking: false)
                 .Include(t => t.Activities)
                 .ThenInclude(a => a.Destination)
                 .FirstOrDefaultAsync();

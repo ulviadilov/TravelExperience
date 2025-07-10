@@ -13,6 +13,12 @@ public class CreateTripCommandHandler : IRequestHandler<CreateTripCommand, Creat
         _tripService = tripService;
     }
 
+    /// <summary>
+    /// Handles the command to create a new trip with associated activities.
+    /// </summary>
+    /// <param name="request">The command containing trip and activity details.</param>
+    /// <param name="cancellationToken">Token to monitor for cancellation requests.</param>
+    /// <returns>A response containing the details of the created trip.</returns>
     public async Task<CreateTripResponse> Handle(CreateTripCommand request, CancellationToken cancellationToken)
     {
         var trip = new Trip
@@ -44,7 +50,7 @@ public class CreateTripCommandHandler : IRequestHandler<CreateTripCommand, Creat
 
         return new CreateTripResponse
         {
-            TripId = createdTrip.TripId,
+            TripId = createdTrip.Id,
             UserId = createdTrip.UserId,
             Title = createdTrip.Title,
             StartDate = createdTrip.StartDate,
@@ -53,7 +59,7 @@ public class CreateTripCommandHandler : IRequestHandler<CreateTripCommand, Creat
             CreatedAt = createdTrip.CreatedAt,
             Activities = createdTrip.Activities.Select(a => new ActivityDto
             {
-                ActivityId = a.ActivityId,
+                ActivityId = a.Id,
                 DestinationId = a.DestinationId,
                 Duration = a.Duration,
                 Cost = a.Cost,
