@@ -1,7 +1,4 @@
-using FluentValidation;
-using MediatR;
 using TravelExperience.Application;
-using TravelExperience.Application.Behaviors;
 using TravelExperience.Infrastructure;
 using TravelExperience.Infrastructure.Data;
 using TravelExperience.Infrastructure.Data.Seeders;
@@ -15,8 +12,6 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
-builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 var app = builder.Build();
 

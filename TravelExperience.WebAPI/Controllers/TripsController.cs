@@ -11,10 +11,12 @@ namespace TravelExperience.WebAPI.Controllers;
 public class TripsController : ControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly ILogger<TripsController> _logger;
 
-    public TripsController(IMediator mediator)
+    public TripsController(IMediator mediator, ILogger<TripsController> logger)
     {
         _mediator = mediator;
+        _logger = logger;
     }
 
     [HttpPost]
@@ -23,17 +25,22 @@ public class TripsController : ControllerBase
         try
         {
             var response = await _mediator.Send(command);
+            _logger.LogInformation("Trip created successfully with ID: {TripId}", response.TripId);
             return Ok(response);
         }
-        catch (ArgumentException ex)
+        catch (ValidationException ex)
         {
-            return BadRequest(new { error = ex.Message });
+            _logger.LogWarning(ex, "Validation failed for trip creation");
+            var errors = ex.Errors.Select(e => new { Field = e.PropertyName, Message = e.ErrorMessage });
+            return BadRequest(new { errors });
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Unexpected error occurred while creating trip");
             return StatusCode(500, new { error = "An error occurred while creating the trip" });
         }
     }
+
 
     [HttpGet("{tripId}")]
     public async Task<ActionResult<GetTripByIdResponse>> GetTripById(int tripId)
@@ -55,6 +62,7 @@ public class TripsController : ControllerBase
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Unexpected error occurred while retrieving trip ID: {TripId}", tripId);
             return StatusCode(500, new { error = "An error occurred while retrieving the trip" });
         }
     }
@@ -75,6 +83,7 @@ public class TripsController : ControllerBase
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Unexpected error occurred while retrieving trips for user ID: {UserId}", userId);
             return StatusCode(500, new { error = "An error occurred while retrieving trips" });
         }
     }

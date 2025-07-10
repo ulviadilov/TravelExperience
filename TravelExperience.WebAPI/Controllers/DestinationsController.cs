@@ -9,10 +9,12 @@ namespace TravelExperience.WebAPI.Controllers
     public class DestinationsController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly ILogger<DestinationsController> _logger;
 
-        public DestinationsController(IMediator mediator)
+        public DestinationsController(IMediator mediator, ILogger<DestinationsController> logger)
         {
             _mediator = mediator;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -26,6 +28,7 @@ namespace TravelExperience.WebAPI.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "An error occurred while retrieving destinations");
                 return StatusCode(500, new { error = "An error occurred while retrieving destinations" });
             }
         }
